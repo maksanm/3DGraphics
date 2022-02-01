@@ -68,8 +68,8 @@ namespace Project4.Objects
                 point = modelMatrix * point;
                 point = viewMatrix * point;
                 point = projMatrix * point;
-                pointsToDraw[i].X = point.X;//спросить за нормализацию
-                pointsToDraw[i].Y = point.Y;
+                pointsToDraw[i].X = point.X + 700;//спросить за нормализацию
+                pointsToDraw[i].Y = point.Y + 400;
                 pointsToDraw[i].Z = point.Z;
             }
 
@@ -80,7 +80,7 @@ namespace Project4.Objects
                 var ca = pointsToDraw[triangle[0]] - pointsToDraw[triangle[2]];
                 if (Vector3.Cross(ba, ca).Z > 0)
                 {
-                    //FillTriangle(canvas, pointsToDraw[triangle[0]], pointsToDraw[triangle[1]], pointsToDraw[triangle[2]]);
+                    FillTriangle(canvas, pointsToDraw[triangle[0]], pointsToDraw[triangle[1]], pointsToDraw[triangle[2]]);
                     g.DrawLine(Pens.Black, new Point((int)pointsToDraw[triangle[0]].X, (int)pointsToDraw[triangle[0]].Y), new Point((int)pointsToDraw[triangle[1]].X, (int)pointsToDraw[triangle[1]].Y));
                     g.DrawLine(Pens.Black, new Point((int)pointsToDraw[triangle[0]].X, (int)pointsToDraw[triangle[0]].Y), new Point((int)pointsToDraw[triangle[2]].X, (int)pointsToDraw[triangle[2]].Y));
                     g.DrawLine(Pens.Black, new Point((int)pointsToDraw[triangle[1]].X, (int)pointsToDraw[triangle[1]].Y), new Point((int)pointsToDraw[triangle[2]].X, (int)pointsToDraw[triangle[2]].Y));

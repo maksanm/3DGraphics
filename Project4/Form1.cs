@@ -22,10 +22,14 @@ namespace Project4
     {
         private DirectBitmap canvas;
         private Timer timer = new Timer();
+
         private int n = 1;
         private int f = 100;
-        private int fov = 60;
-        private Camera currentCamera = new Camera(new Vector3(1000, 1000, 1000), new Vector3(-500, -500, -500));//new Vector3(-0.3f, 0.75f, 0f))
+        private int fov = 90;
+        private StaticCamera staticCamera;
+        private TrackingCamera trackingCamera;
+        private AttachedCamera attachedCamera;
+
 
         private Table table;
         private Sphere sphere1;
@@ -46,9 +50,6 @@ namespace Project4
             timer.Interval = 75;
             timer.Enabled = true;
 
-            projMatrix = GetProjectionMatrix();
-            viewMatrix = currentCamera.GetViewMatrix();
-
             InitializeComponent();
         }
 
@@ -57,20 +58,27 @@ namespace Project4
             canvas.Dispose();
             canvas = new DirectBitmap(bitmap.Width, bitmap.Height);
             zBufferReset();
-            sphere1.RotateX(3*phi);
             sphere2.RotateZ(3*phi);
             if (!goBack)
             {
                 if (sphere1.Position.Y > 730)
                     goBack = true;
                 sphere1.Translate(new Vector3(0, 10, 0));
+                sphere1.RotateX(5 * phi);
             }
             else if (goBack)
             {
                 if (sphere1.Position.Y < 270)
                     goBack = false;
-                sphere1.Translate(new Vector3(0, -10, 0));
+                sphere1.Translate(new Vector3(0, -5, 0));
+                sphere1.RotateX(-5 * phi);
             }
+            if (staticCameraButton.Checked)
+                viewMatrix = staticCamera.GetViewMatrix();
+            else if (trackingCameraButton.Checked)
+                viewMatrix = trackingCamera.GetViewMatrix();
+            else if (attachedCameraButton.Checked)
+                viewMatrix = attachedCamera.GetViewMatrix();
             Draw();
             phi++;
             bitmap.Image = canvas.Bitmap;
@@ -95,6 +103,12 @@ namespace Project4
             table = new Table(Color.SaddleBrown, zBuffer);
             sphere1 = new Sphere(new Vector3(600, 400, 430), 20, Color.White, zBuffer);
             sphere2 = new Sphere(new Vector3(590, 500, 450), 20, Color.Red, zBuffer);
+
+            staticCamera = new StaticCamera(new Vector3(1000, 1000, 1000), new Vector3(-500, -500, -500));
+            trackingCamera = new TrackingCamera(sphere1, new Vector3(0, 500, 0));
+            attachedCamera = new AttachedCamera(sphere1, new Vector3(1000, 1000, 1000));
+
+            projMatrix = GetProjectionMatrix();
         }
     }
 }

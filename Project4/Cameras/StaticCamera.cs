@@ -8,19 +8,19 @@ using System.Threading.Tasks;
 
 namespace Project4.Cameras
 {
-    public class Camera
+    public class StaticCamera
     {
-        private Vector3 cameraPosition;
-        private Vector3 cameraTarget;
+        protected Vector3 cameraPosition;
+        protected Vector3 cameraTarget;
         private Vector3 upVersor = new Vector3(0, 0, 1);
 
-        public Camera(Vector3 cameraPosition, Vector3 cameraTarget)
+        public StaticCamera(Vector3 cameraPosition, Vector3 cameraTarget)
         {
-            this.cameraPosition = cameraPosition / cameraPosition.Length();
-            this.cameraTarget = cameraTarget / cameraTarget.Length();
+            this.cameraPosition = cameraPosition;
+            this.cameraTarget = cameraTarget;
         }
 
-        public Matrix GetViewMatrix()
+        public virtual Matrix GetViewMatrix()
         {
             Vector3 zAxis = Vector3.Subtract(cameraPosition, cameraTarget);
             zAxis = zAxis / zAxis.Length();
