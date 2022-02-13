@@ -190,6 +190,35 @@ namespace Project4.Tools
             return m;
         }
 
+        public static Vector3 operator *(Matrix m1, Vector3 v)
+        {
+            if (m1.column != 3)
+            {
+                throw new Exception("Impossible operation");
+            }
+
+            Matrix m2 = new Matrix(m1.row, 1);
+            m2.matrix = new double[,] { { v.X }, { v.Y }, { v.Z } };
+            Matrix m = new Matrix(m1.row, 1);
+
+            for (int i = 0; i < m1.row; i++)
+            {
+                for (int j = 0; j < m2.column; j++)
+                {
+                    double sum = 0;
+
+                    for (int k = 0; k < m1.column; k++)
+                    {
+                        sum += m1.matrix[i, k] * m2.matrix[k, j];
+                    }
+
+                    m.matrix[i, j] = sum;
+                }
+            }
+            Vector3 res = new Vector3((float)m.matrix[0, 0], (float)m.matrix[1, 0], (float)m.matrix[2, 0]);
+            return res;
+        }
+
         public static Vector4 operator *(Matrix m1, Vector4 v)
         {
             if (m1.column != 4)

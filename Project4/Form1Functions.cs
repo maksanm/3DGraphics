@@ -44,14 +44,14 @@ namespace Project4
             sphere1.Translate(new Vector3(1f / (4f * (float)Math.PI) * (float)phi * (float)Math.Cos((float)phi / 4f), 1f / (4f * (float)Math.PI) * (float)phi * (float)Math.Sin((float)phi / 4f), 0));
             if (spiralIncrease)
             {
-                sphere1.RotateX(8 * phi);
+                sphere1.RotateZ(phi);
                 phi++;
                 if (phi == 360)
                     spiralIncrease = false;
             }
             else
             {
-                sphere1.RotateY(8 * phi);
+                sphere1.RotateZ(phi);
                 phi--;
                 if (phi == 0)
                     spiralIncrease = true;

@@ -15,10 +15,6 @@ using Project4.ColorFilling;
 
 namespace Project4
 {
-    /*TODO
-    3 КАМЕРЫ
-    ДИНАМИЧЕСКИЙ ОБЪЕКТ
-    */
     public partial class Form1 : Form
     {
         private DirectBitmap canvas;
@@ -82,17 +78,19 @@ namespace Project4
             zBuffer = new double[bitmap.Width, bitmap.Height];
             zBufferReset();
             table = new Table(new Vector3(0, 0, 0), Color.SaddleBrown, zBuffer);
-            sphere1 = new Sphere(new Vector3(500, 400, 485), 20, Color.Red, zBuffer);
-            sphere2 = new Sphere(new Vector3(590, 500, 465), 30, Color.White, zBuffer);
+            var reflector = new LightSource(new Vector3(500, 400, 495), Color.Blue, 1.0f, 0.003f, 0.0001f, new Vector3(0, -1, -0.3f), (float)Math.PI / 12f);
+            sphere1 = new SphereWithReflector(new Vector3(500, 400, 495), 50, Color.Red, zBuffer, reflector);
+            sphere2 = new Sphere(new Vector3(590, 500, 500), 10, Color.Yellow, zBuffer);
 
-            staticCamera = new StaticCamera(new Vector3(1000, 1000, 1000), new Vector3(590, 500, 450));
-            trackingCamera = new TrackingCamera(sphere1, new Vector3(1000, 1000, 1000));
-            attachedCamera = new AttachedCamera(sphere1, new Vector3(1000, 1000, 1000));
+            staticCamera = new StaticCamera(new Vector3(500, 700, 600), new Vector3(590, 500, 450));
+            trackingCamera = new TrackingCamera(sphere1, new Vector3(500, 700, 600));
+            attachedCamera = new AttachedCamera(sphere1, new Vector3(500, 700, 600));
 
-            lightSources.Add(new LightSource(new Vector3(590, 500, 500), Color.White, 1.0f, 0.022f, 0.019f));
+            lightSources.Add(reflector);
+            lightSources.Add(new LightSource(new Vector3(590, 500, 500), Color.Yellow, 1.0f, 0.003f, 0.0001f));
             sphere1.AddLights(1f, 0.5f, 0.5f, 4, lightSources);
             sphere2.AddLights(1f, 0.5f, 0.5f, 4, lightSources);
-            table.AddLights(0.5f, 0.3f, 0.3f, 4, lightSources);
+            table.AddLights(1f, 1f, 1f, 2, lightSources);
 
             projMatrix = GetProjectionMatrix();
         }

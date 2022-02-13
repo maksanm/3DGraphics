@@ -31,20 +31,32 @@ namespace Project4.ColorFilling
         {
             Vector3 resultVector;
             var V = Vector3.Normalize(position - cameraPosition);
-            resultVector = Ia * ka;
-            foreach(var lightSource in LightSources)
+            resultVector = new Vector3(0, 0, 0);
+            foreach (var lightSource in LightSources)
             {
                 Vector3 L = lightSource.GetLVector(position);
-                float cosNL = normal.X * L.X + normal.Y * L.Y + normal.Z * L.Z;
+                float cosNL = Vector3.Dot(L, normal);
                 cosNL = cosNL < 0 ? 0 : cosNL;
-                Vector3 R = 2 * cosNL * normal - L;
-                float cosVR = V.X * R.X + V.Y * R.Y + V.Z * R.Z;
+                Vector3 R = Vector3.Reflect(L, normal);
+                float cosVR = Vector3.Dot(V, R);
                 cosVR = cosVR < 0 ? 0 : cosVR;
-
                 float distance = (position - lightSource.position).Length();
-                //float attenuation = 1.0f / (lightSource.constant + lightSource.linear * distance + lightSource.quadratic * (distance * distance));
+                float attenuation = 1.0f / (lightSource.constant + lightSource.linear * distance + lightSource.quadratic * (distance * distance));
 
-                resultVector +=  lightSource.Il * (kd * cosNL + ks * (float)Math.Pow(cosVR, this.n));
+                if (lightSource.isReflector)
+                {
+                    float theta = Vector3.Dot(L, Vector3.Normalize(lightSource.direction));
+                    if (theta > Math.Cos(lightSource.cutOff))
+                    {
+                        resultVector += attenuation * lightSource.Il * (kd * cosNL + ks * (float)Math.Pow(cosVR, this.n));
+                        resultVector += attenuation * ka * Ia;
+                    }
+                }
+                else
+                {
+                    resultVector += attenuation * lightSource.Il * (kd * cosNL + ks * (float)Math.Pow(cosVR, this.n));
+                    resultVector += attenuation * ka * Ia;
+                }
             }
             resultVector *= 255;
             resultVector.X = resultVector.X <= 255 ? resultVector.X : 255;
@@ -54,6 +66,12 @@ namespace Project4.ColorFilling
             resultVector.Y = resultVector.Y >= 0 ? resultVector.Y : 0;
             resultVector.Z = resultVector.Z >= 0 ? resultVector.Z : 0;
             return Color.FromArgb((int)(resultVector.X), (int)(resultVector.Y), (int)(resultVector.Z));
+        }
+
+        public Vector3 GetColorVector3(Vector3 position, Vector3 normal, Vector3 cameraPosition)
+        {
+            var color = GetColor(position, normal, cameraPosition);
+            return new Vector3(color.R, color.G, color.B);
         }
     }
 }
