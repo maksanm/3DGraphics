@@ -20,6 +20,7 @@ namespace Project4.Objects
             this.radius = radius;
             points = GetVertices();
             CalculateTriangles();
+            GetTrianglesNormals();
         }
 
         private List<Vector3> GetVertices()

@@ -21,6 +21,7 @@ namespace Project4.Objects
             this.points = new List<Vector3> { new Vector3(0, 0, 0), new Vector3(0, width, 0), new Vector3(length, width, 0), new Vector3(length, 0, 0),
                 new Vector3(0, 0, heigth), new Vector3(0, width, heigth), new Vector3(length, width, heigth), new Vector3(length, 0, heigth)};
             CalculateTriangles();
+            GetTrianglesNormals();
         }
 
         private void CalculateTriangles()

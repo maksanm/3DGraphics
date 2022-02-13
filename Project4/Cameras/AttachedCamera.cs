@@ -20,7 +20,7 @@ namespace Project4.Cameras
 
         public override Matrix GetViewMatrix()
         {
-            cameraPosition = cameraPosition + attachedObject.Position - cameraTarget;
+            cameraPosition += attachedObject.Position - cameraTarget;
             cameraTarget = attachedObject.Position;
             return base.GetViewMatrix();
         }

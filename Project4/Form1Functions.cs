@@ -27,16 +27,35 @@ namespace Project4
 
         private void Draw()
         {
-            table.Draw(canvas, projMatrix, viewMatrix);
-            sphere2.Draw(canvas, projMatrix, viewMatrix);
-            sphere1.Draw(canvas, projMatrix, viewMatrix);
+            table.Draw(canvas, projMatrix, viewMatrix, currentModel);
+            sphere2.Draw(canvas, projMatrix, viewMatrix, currentModel);
+            sphere1.Draw(canvas, projMatrix, viewMatrix, currentModel);
         }
 
         private void zBufferReset()
         {
             for (int i = 0; i < bitmap.Width; i++)
                 for (int j = 0; j < bitmap.Height; j++)
-                    zBuffer[i, j] = double.MinValue;
+                    zBuffer[i, j] = double.MaxValue;
+        }
+
+        private void SpiralIterate()
+        {
+            sphere1.Translate(new Vector3(1f / (4f * (float)Math.PI) * (float)phi * (float)Math.Cos((float)phi / 4f), 1f / (4f * (float)Math.PI) * (float)phi * (float)Math.Sin((float)phi / 4f), 0));
+            if (spiralIncrease)
+            {
+                sphere1.RotateX(8 * phi);
+                phi++;
+                if (phi == 360)
+                    spiralIncrease = false;
+            }
+            else
+            {
+                sphere1.RotateY(8 * phi);
+                phi--;
+                if (phi == 0)
+                    spiralIncrease = true;
+            }
         }
     }
 }

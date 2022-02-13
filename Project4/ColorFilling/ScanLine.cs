@@ -24,7 +24,7 @@ namespace Project4.ColorFilling
             int yMax = polygon.Select(p => p.Y).Max();
             for (int y = yMin; y < yMax; y++)
             {
-                AET.AddRange(ET[y]);
+                AET.AddRange(ET[y - yMin]);
                 AET.RemoveAll(pointer => pointer.yMax <= y);
                 yield return (AET.Select(pointer => (int)Math.Round(pointer.x)).OrderBy(x => x).ToList(), y);
                 foreach (var pointer in AET)
@@ -34,7 +34,8 @@ namespace Project4.ColorFilling
 
         private void BucketSort()
         {
-            int number = polygon.Select(p => p.Y).Max() + 1;
+            int yMin = polygon.Select(p => p.Y).Min();
+            int number = polygon.Select(p => p.Y).Max() - yMin + 1;
             ET = new List<AETPointer>[number];
             for (int i = 0; i < number; i++)
                 ET[i] = new List<AETPointer>();
@@ -43,13 +44,13 @@ namespace Project4.ColorFilling
                 int index, x, yMax;
                 if (polygon[i].Y < polygon[(i - 1 + polygon.Count) % polygon.Count].Y)
                 {
-                    index = polygon[i].Y;
+                    index = polygon[i].Y - yMin;
                     x = polygon[i].X;
                     yMax = polygon[(i - 1 + polygon.Count) % polygon.Count].Y;
                 }
                 else
                 {
-                    index = polygon[(i - 1 + polygon.Count) % polygon.Count].Y;
+                    index = polygon[(i - 1 + polygon.Count) % polygon.Count].Y - yMin;
                     x = polygon[(i - 1 + polygon.Count) % polygon.Count].X;
                     yMax = polygon[i].Y;
                 }
