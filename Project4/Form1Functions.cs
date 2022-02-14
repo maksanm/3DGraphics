@@ -28,8 +28,10 @@ namespace Project4
         private void Draw()
         {
             table.Draw(canvas, projMatrix, viewMatrix, currentModel);
-            sphere2.Draw(canvas, projMatrix, viewMatrix, currentModel);
+            lamp1.Draw(canvas, projMatrix, viewMatrix, currentModel);
+            lamp2.Draw(canvas, projMatrix, viewMatrix, currentModel);
             sphere1.Draw(canvas, projMatrix, viewMatrix, currentModel);
+            sphere2.Draw(canvas, projMatrix, viewMatrix, currentModel);
         }
 
         private void zBufferReset()

@@ -105,7 +105,7 @@ namespace Project4.Objects
             {
                 var ba = pointsToDraw[triangle[0]] - pointsToDraw[triangle[1]];
                 var ca = pointsToDraw[triangle[0]] - pointsToDraw[triangle[2]];
-                if (Vector3.Cross(ba, ca).Z < 0)
+                if (Vector3.Cross(ba, ca).Z < 0 && colorGenerator != null)
                 {
                     var index = triangles.IndexOf(triangle);
                     Vector4 normalVector4 = new Vector4(trianglesNormals[index].X, trianglesNormals[index].Y, trianglesNormals[index].Z, 0);

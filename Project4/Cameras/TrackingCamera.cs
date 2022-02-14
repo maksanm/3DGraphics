@@ -15,9 +15,6 @@ namespace Project4.Cameras
 
         public TrackingCamera(AbstractObject trackedObject, Vector3 cameraPosition) : base(cameraPosition, trackedObject.Position) 
         {
-            /*cameraPosition.X = -cameraPosition.X;
-            cameraPosition.Y = -cameraPosition.Y;
-            this.cameraPosition = cameraPosition;*/
             this.trackedObject = trackedObject;
         }
 

@@ -38,6 +38,7 @@ namespace Project4
             this.constantShading = new System.Windows.Forms.RadioButton();
             this.phongShading = new System.Windows.Forms.RadioButton();
             this.gouraudShading = new System.Windows.Forms.RadioButton();
+            this.stopCheckbox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.bitmap)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -143,11 +144,23 @@ namespace Project4
             this.gouraudShading.UseVisualStyleBackColor = true;
             this.gouraudShading.CheckedChanged += new System.EventHandler(this.gouraudShading_CheckedChanged);
             // 
+            // stopCheckbox
+            // 
+            this.stopCheckbox.AutoSize = true;
+            this.stopCheckbox.Location = new System.Drawing.Point(1411, 293);
+            this.stopCheckbox.Name = "stopCheckbox";
+            this.stopCheckbox.Size = new System.Drawing.Size(133, 24);
+            this.stopCheckbox.TabIndex = 6;
+            this.stopCheckbox.Text = "Stop animation";
+            this.stopCheckbox.UseVisualStyleBackColor = true;
+            this.stopCheckbox.CheckedChanged += new System.EventHandler(this.stopCheckbox_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1684, 792);
+            this.Controls.Add(this.stopCheckbox);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.bitmap);
@@ -160,6 +173,7 @@ namespace Project4
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -174,6 +188,7 @@ namespace Project4
         private System.Windows.Forms.RadioButton constantShading;
         private System.Windows.Forms.RadioButton phongShading;
         private System.Windows.Forms.RadioButton gouraudShading;
+        private System.Windows.Forms.CheckBox stopCheckbox;
     }
 }
 

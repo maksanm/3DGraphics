@@ -29,7 +29,11 @@ namespace Project4
 
         private Table table;
         private Sphere sphere1;
+        private Sphere lamp1;
+        private Sphere lamp2;
         private Sphere sphere2;
+
+        private bool stop = false;
 
         private List<LightSource> lightSources;
         private ShadingModels currentModel = ShadingModels.Constant;
@@ -60,7 +64,8 @@ namespace Project4
             canvas = new DirectBitmap(bitmap.Width, bitmap.Height);
             zBufferReset();
 
-            SpiralIterate();
+            if(!stop)
+                SpiralIterate();
 
             if (staticCameraButton.Checked)
                 viewMatrix = staticCamera.GetViewMatrix();
@@ -80,17 +85,22 @@ namespace Project4
             table = new Table(new Vector3(0, 0, 0), Color.SaddleBrown, zBuffer);
             var reflector = new LightSource(new Vector3(500, 400, 495), Color.Blue, 1.0f, 0.003f, 0.0001f, new Vector3(0, -1, -0.3f), (float)Math.PI / 12f);
             sphere1 = new SphereWithReflector(new Vector3(500, 400, 495), 50, Color.Red, zBuffer, reflector);
-            sphere2 = new Sphere(new Vector3(590, 500, 500), 10, Color.Yellow, zBuffer);
+            lamp1 = new Sphere(new Vector3(800, 400, 500), 10, Color.Yellow, zBuffer);
+            lamp2 = new Sphere(new Vector3(300, 600, 500), 10, Color.Yellow, zBuffer);
+            sphere2 = new Sphere(new Vector3(590, 500, 485), 30, Color.Green, zBuffer);
 
-            staticCamera = new StaticCamera(new Vector3(500, 700, 600), new Vector3(590, 500, 450));
-            trackingCamera = new TrackingCamera(sphere1, new Vector3(500, 700, 600));
-            attachedCamera = new AttachedCamera(sphere1, new Vector3(500, 700, 600));
+            staticCamera = new StaticCamera(new Vector3(800, 700, 700), new Vector3(590, 500, 450));
+            trackingCamera = new TrackingCamera(sphere1, new Vector3(800, 700, 700));
+            attachedCamera = new AttachedCamera(sphere1, new Vector3(800, 700, 700));
 
             lightSources.Add(reflector);
-            lightSources.Add(new LightSource(new Vector3(590, 500, 500), Color.Yellow, 1.0f, 0.003f, 0.0001f));
+            lightSources.Add(new LightSource(new Vector3(800, 400, 500), Color.Yellow, 1.0f, 0.014f, 0.0007f));
+            lightSources.Add(new LightSource(new Vector3(300, 600, 500), Color.Yellow, 1.0f, 0.0008f, 0.00006f));
             sphere1.AddLights(1f, 0.5f, 0.5f, 4, lightSources);
-            sphere2.AddLights(1f, 0.5f, 0.5f, 4, lightSources);
-            table.AddLights(1f, 1f, 1f, 2, lightSources);
+            lamp1.AddLights(0.5f, 1f, 1f, 2, lightSources);
+            lamp2.AddLights(1f, 0.5f, 0.5f, 4, lightSources);
+            table.AddLights(1f, 0f, 1f, 2, lightSources);
+            sphere2.AddLights(0.5f, 0f, 1f, 2, lightSources);
 
             projMatrix = GetProjectionMatrix();
         }
@@ -108,6 +118,11 @@ namespace Project4
         private void phongShading_CheckedChanged(object sender, EventArgs e)
         {
             currentModel = phongShading.Checked ? ShadingModels.Phong : currentModel;
+        }
+
+        private void stopCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            stop = stopCheckbox.Checked;
         }
     }
 }
